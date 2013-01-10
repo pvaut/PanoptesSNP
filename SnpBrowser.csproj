@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{DE9955B9-46D8-4EAC-910B-078EF61BA639}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SnpBrowser</RootNamespace>
+    <AssemblyName>SnpBrowser</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <UseIISExpress>false</UseIISExpress>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Bitmaps\adddown.png" />
+    <Content Include="Bitmaps\addright.png" />
+    <Content Include="Bitmaps\arrow2down.png" />
+    <Content Include="Bitmaps\arrow2up.png" />
+    <Content Include="Bitmaps\arrow4down.png" />
+    <Content Include="Bitmaps\arrow4up.png" />
+    <Content Include="Bitmaps\arrow5down.png" />
+    <Content Include="Bitmaps\arrow5left.png" />
+    <Content Include="Bitmaps\arrow5right.png" />
+    <Content Include="Bitmaps\arrowdown.png" />
+    <Content Include="Bitmaps\cancel.png" />
+    <Content Include="Bitmaps\circle_blue_small.png" />
+    <Content Include="Bitmaps\circle_red_small.png" />
+    <Content Include="Bitmaps\close.png" />
+    <Content Include="Bitmaps\datagrid1.png" />
+    <Content Include="Bitmaps\datainfo1.png" />
+    <Content Include="Bitmaps\dna1.png" />
+    <Content Include="Bitmaps\download.png" />
+    <Content Include="Bitmaps\first.png" />
+    <Content Include="Bitmaps\home.png" />
+    <Content Include="Bitmaps\info1.png" />
+    <Content Include="Bitmaps\info2.png" />
+    <Content Include="Bitmaps\info3.png" />
+    <Content Include="Bitmaps\lastpage.png" />
+    <Content Include="Bitmaps\lesslines.png" />
+    <Content Include="Bitmaps\link1.png" />
+    <Content Include="Bitmaps\link2.png" />
+    <Content Include="Bitmaps\link3.png" />
+    <Content Include="Bitmaps\magnif1.png" />
+    <Content Include="Bitmaps\magnif2.png" />
+    <Content Include="Bitmaps\malariagen_logo.png" />
+    <Content Include="Bitmaps\morelines.png" />
+    <Content Include="Bitmaps\next.png" />
+    <Content Include="Bitmaps\ok.png" />
+    <Content Include="Bitmaps\person.png" />
+    <Content Include="Bitmaps\pin0.png" />
+    <Content Include="Bitmaps\pin1.png" />
+    <Content Include="Bitmaps\pin2.png" />
+    <Content Include="Bitmaps\plasmodb_w50.png" />
+    <Content Include="Bitmaps\previous.png" />
+    <Content Include="Bitmaps\ProgressAnimation3.gif" />
+    <Content Include="Bitmaps\site.png" />
+    <Content Include="Bitmaps\sortup1.png" />
+    <Content Include="Bitmaps\sortup2.png" />
+    <Content Include="Bitmaps\study.png" />
+    <Content Include="Bitmaps\study2.png" />
+    <Content Include="Bitmaps\tree_collapse.png" />
+    <Content Include="Bitmaps\tree_expand.png" />
+    <Content Include="Bitmaps\update.png" />
+    <Content Include="Bitmaps\update1.png" />
+    <Content Include="Bitmaps\world2.png" />
+    <Content Include="scripts\DQX\base64.js" />
+    <Content Include="scripts\DQX\Bitmaps\barback1a.png" />
+    <Content Include="scripts\DQX\Bitmaps\barback1b.png" />
+    <Content Include="scripts\DQX\Bitmaps\barback2a.png" />
+    <Content Include="scripts\DQX\Bitmaps\diagpattern.jpg" />
+    <Content Include="scripts\DQX\ChannelPlot\ChannelAnnotation.js" />
+    <Content Include="scripts\DQX\ChannelPlot\ChannelCanvas.js" />
+    <Content Include="scripts\DQX\ChannelPlot\ChannelPlotter.js" />
+    <Content Include="scripts\DQX\ChannelPlot\ChannelSequence.js" />
+    <Content Include="scripts\DQX\ChannelPlot\ChannelYVals.js" />
+    <Content Include="scripts\DQX\ChannelPlot\GenomePlotter.js" />
+    <Content Include="scripts\DQX\Controls.js" />
+    <Content Include="scripts\DQX\DataDecoders.js" />
+    <Content Include="scripts\DQX\DataFetcher\DataFetcherAnnotation.js" />
+    <Content Include="scripts\DQX\DataFetcher\DataFetchers.js" />
+    <Content Include="scripts\DQX\DataFetcher\DataFetcherSummary.js" />
+    <Content Include="scripts\DQX\DataFetcher\DQXDataFetcherSummary.js" />
+    <Content Include="scripts\DQX\data\countries.js" />
+    <Content Include="scripts\DQX\DocEl.js" />
+    <Content Include="scripts\DQX\DQXBootstrap.js" />
+    <Content Include="scripts\DQX\DQXCommon.css" />
+    <Content Include="scripts\DQX\FrameList.js" />
+    <Content Include="scripts\DQX\FramePanel.js" />
+    <Content Include="scripts\DQX\FrameTree.js" />
+    <Content Include="scripts\DQX\Framework.js" />
+    <Content Include="scripts\DQX\HistoryManager.js" />
+    <Content Include="scripts\DQX\lib\geo_json.js" />
+    <Content Include="scripts\DQX\lib\markdown.js" />
+    <Content Include="scripts\DQX\Map.js" />
+    <Content Include="scripts\DQX\Markdown.js" />
+    <Content Include="scripts\DQX\Msg.js" />
+    <Content Include="scripts\DQX\Popup.js" />
+    <Content Include="scripts\DQX\QueryBuilder.js" />
+    <Content Include="scripts\DQX\QueryTable.js" />
+    <Content Include="scripts\DQX\Scroller.js" />
+    <Content Include="scripts\DQX\SQL.js" />
+    <Content Include="scripts\DQX\SVG.js" />
+    <Content Include="scripts\DQX\Utils.js" />
+    <Content Include="scripts\DQX\Wizard.js" />
+    <Content Include="scripts\main.js" />
+    <Content Include="scripts\page.js" />
+    <Content Include="SnpBrowser.htm" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>53834</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>
+          </IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
