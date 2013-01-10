@@ -43,11 +43,13 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("D
 
                 that.createFramework = function () {
 
-                    this.frameSettings = thePage.frameBody.addMemberFrame(Framework.FrameFinal('settings', 0.4))
+                    this.frameSettings = thePage.frameBody.addMemberFrame(Framework.FrameFinal('settings', 0.3))
                         .setMargins(5).setDisplayTitle('Settings');
 
-                    this.frameBrowser = thePage.frameBody.addMemberFrame(Framework.FrameFinal('browser', 0.6))
+                    this.frameBrowser = thePage.frameBody.addMemberFrame(Framework.FrameFinal('browser', 0.7))
                         .setMargins(0).setDisplayTitle('Browser');
+
+                    Msg.listen("", { type: 'JumpgenomeRegion' }, $.proxy(this.onJumpGenomeRegion, this));
 
                 };
 
@@ -83,13 +85,11 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("D
 
                     this.panelBrowser.addDataFetcher(mydatafetcher_snps);
 
-                    var SnpChannel = ChannelSnps.Channel(samples, mydatafetcher_snps);
-                    SnpChannel.setTitle('Snps');
-                    SnpChannel.setHeight(300);
-                    this.panelBrowser.addChannel(SnpChannel, false);
-                    this.panelBrowser.channelModifyVisibility('Snps', true);
-
-
+                    var SnpChannel = ChannelSnps.Channel('snps1', samples, mydatafetcher_snps);
+                    SnpChannel.setTitle('Snps1');
+                    SnpChannel.setHeight(400);
+                    SnpChannel.setAutoFillHeight();
+                    this.panelBrowser.addChannel(SnpChannel, true);
 
                     if (this.refVersion == 2)
                         this.createChromosomesPFV2();
@@ -124,6 +124,18 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("D
                 }
 
 
+                //Call this function to jump to & highlight a specific region on the genome
+                that.onJumpGenomeRegion = function (context, args) {
+                    if ('chromoID' in args)
+                        var chromoID = args.chromoID;
+                    else {
+                        DQX.assertPresence(args, 'chromNr');
+                        var chromoID = this.panelBrowser.getChromoID(args.chromNr);
+                    }
+                    DQX.assertPresence(args, 'start'); DQX.assertPresence(args, 'end');
+                    //this.activateState();
+                    this.panelBrowser.highlightRegion(chromoID, (args.start + args.end) / 2, args.end - args.start);
+                };
 
                 return that;
             }
