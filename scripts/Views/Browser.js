@@ -16,13 +16,13 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("D
                 that.createFramework = function () {
 
                     this.frameLeft = thePage.frameBody.addMemberFrame(Framework.FrameGroupVert('settings', 0.01))
-                        .setMargins(5).setFixedSize(Framework.dimX, 320);
+                        .setMargins(5).setFixedSize(Framework.dimX, 330);
 
                     this.frameDataSource = this.frameLeft.addMemberFrame(Framework.FrameFinal('datasource', 0.3))
-                        .setMargins(5).setDisplayTitle('Data source').setFixedSize(Framework.dimY, 100);
+                        .setMargins(5).setDisplayTitle('Data source').setFixedSize(Framework.dimY, 100).setFixedSize(Framework.dimX, 330);
 
                     this.frameControls = this.frameLeft.addMemberFrame(Framework.FrameFinal('settings', 0.3))
-                        .setMargins(5).setDisplayTitle('Settings');
+                        .setMargins(5).setDisplayTitle('Settings').setFixedSize(Framework.dimX, 330);
 
                     this.frameBrowser = thePage.frameBody.addMemberFrame(Framework.FrameFinal('browser', 0.7))
                         .setMargins(0).setDisplayTitle('Browser');
