@@ -1,7 +1,7 @@
 ﻿
 setupRequireJS();
 
-require([DQXSCJQ(), DQXSC("Framework"), DQXSC("Msg"), DQXSC("HistoryManager"), DQXSC("Utils"), "Page"],
+require([DQXSCJQ(), DQXSC("Framework"), DQXSC("Msg"), DQXSC("HistoryManager"), DQXSC("Utils"), "page"],
     function ($, Framework, Msg, HistoryManager, DQX, thePage) {
         $(function () {
 
@@ -9,6 +9,9 @@ require([DQXSCJQ(), DQXSC("Framework"), DQXSC("Msg"), DQXSC("HistoryManager"), D
             DQX.Init();
 
             setTimeout(function () {
+
+                thePage.getMetaData();
+
                 //Create the frames
                 thePage.createFramework();
 

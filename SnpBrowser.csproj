@@ -145,6 +145,7 @@
     <Content Include="scripts\DQX\Controls.js" />
     <Content Include="scripts\DQX\DataDecoders.js" />
     <Content Include="scripts\DQX\DataFetcher\DataFetcherAnnotation.js" />
+    <Content Include="scripts\DQX\DataFetcher\DataFetcherFile.js" />
     <Content Include="scripts\DQX\DataFetcher\DataFetchers.js" />
     <Content Include="scripts\DQX\DataFetcher\DataFetcherSnp.js" />
     <Content Include="scripts\DQX\DataFetcher\DataFetcherSummary.js" />

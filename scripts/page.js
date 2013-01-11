@@ -1,5 +1,5 @@
-﻿define(["DQX/Framework", "DQX/HistoryManager", "DQX/DocEl", "DQX/Msg", "Views/Browser"],
-    function (Framework, HistoryManager, DocEl, Msg, BrowserModule) {
+﻿define([DQXSC("Framework"), DQXSC("HistoryManager"), DQXSC("DocEl"), DQXSC("Msg"), DQXSC("DataFetcher/DataFetcherFile"), "Views/Browser"],
+    function (Framework, HistoryManager, DocEl, Msg, DataFetcherFile, BrowserModule) {
         thePage = {
 
             createFramework: function () {
@@ -18,6 +18,16 @@
                 thePage.BrowserView.createFramework();
 
             },
+
+            getMetaData: function () {
+                //DataFetcherFile.getFile(serverUrl, "SnpSets", thePage.handleGetMetaData);
+                DataFetcherFile.getFile(serverUrl, "SNP-svar1/_MetaData", thePage.handleGetMetaData);
+            },
+
+            handleGetMetaData: function (content) {
+                //alert(content);
+                var rows = content.split('\n');
+            }
 
 
         };

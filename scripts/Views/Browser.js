@@ -43,7 +43,7 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("D
 
                 that.createFramework = function () {
 
-                    this.frameSettings = thePage.frameBody.addMemberFrame(Framework.FrameFinal('settings', 0.3))
+                    this.frameControls = thePage.frameBody.addMemberFrame(Framework.FrameFinal('settings', 0.3))
                         .setMargins(5).setDisplayTitle('Settings');
 
                     this.frameBrowser = thePage.frameBody.addMemberFrame(Framework.FrameFinal('browser', 0.7))
@@ -85,19 +85,63 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("D
 
                     this.panelBrowser.addDataFetcher(mydatafetcher_snps);
 
-                    var SnpChannel = ChannelSnps.Channel('snps1', samples, mydatafetcher_snps);
-                    SnpChannel.setTitle('Snps1');
-                    SnpChannel.setHeight(400);
-                    SnpChannel.setAutoFillHeight();
-                    this.panelBrowser.addChannel(SnpChannel, true);
+                    this.SnpChannel = ChannelSnps.Channel('snps1', samples, mydatafetcher_snps);
+                    this.SnpChannel.setTitle('Snps1');
+                    this.SnpChannel.setHeight(400);
+                    this.SnpChannel.setAutoFillHeight();
+                    this.panelBrowser.addChannel(this.SnpChannel, true);
 
                     if (this.refVersion == 2)
                         this.createChromosomesPFV2();
                     if (this.refVersion == 3)
                         this.createChromosomesPFV3();
 
+                    this.createControls();
+
                 };
 
+                that.createControls = function () {
+                    this.panelControls = Framework.Form(this.frameControls);
+
+                    var group1 = this.panelControls.addControl(Controls.CompoundVert());
+
+
+                    group1.addControl(Controls.Check('CtrlMagnif', { label: 'Show magnifying glass' })).setOnChanged(function (id,ctrl) {
+                        that.SnpChannel.useMagnifyingGlass = ctrl.getValue();
+                        that.panelBrowser.render();
+                    });
+                    group1.addControl(Controls.Check('CtrlEquiDistant', { label: 'Equidistant blocks' })).setOnChanged(function (id, ctrl) {
+                        that.SnpChannel.fillBlocks = ctrl.getValue();
+                        that.panelBrowser.render();
+                    });
+                    group1.addControl(Controls.Check('CtrlSmallBlocks', { label: 'Allow small blocks' })).setOnChanged(function (id, ctrl) {
+                        that.SnpChannel.allowSmallBlocks = ctrl.getValue();
+                        that.panelBrowser.render();
+                    });
+
+                    group1.addControl(Controls.Check('CtrlFilterVCF', { label: 'Filter by VCF data' })).setOnChanged(function (id, ctrl) {
+                        that.SnpChannel.filter.applyVCFFilter = ctrl.getValue();
+                        that.panelBrowser.render();
+                    });
+                    group1.addControl(Controls.Check('CtrlHideFiltered', { label: 'Hide filtered SNPs' })).setOnChanged(function (id, ctrl) {
+                        that.SnpChannel.hideFiltered = ctrl.getValue();
+                        that.panelBrowser.render();
+                    });
+                    group1.addControl(Controls.Check('CtrlRequireParents', { label: 'Require parents' })).setOnChanged(function (id, ctrl) {
+                        that.SnpChannel.filter.requireParentsPresent = ctrl.getValue();
+                        that.panelBrowser.render();
+                    });
+                    group1.addControl(Controls.Check('CtrlShowInheritance', { label: 'Show inheritance' })).setOnChanged(function (id, ctrl) {
+                        that.SnpChannel.colorByParent = ctrl.getValue();
+                        that.panelBrowser.render();
+                    });
+                    group1.addControl(Controls.Button('CtrlSortParents', { content: 'Sort by parents' })).setOnChanged(function (id, ctrl) {
+                        that.SnpChannel.sortByParents();
+                    });
+
+
+                    this.panelControls.render();
+                }
 
 
                 that.createChromosomesPFV2 = function () {
