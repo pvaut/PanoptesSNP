@@ -1,5 +1,5 @@
-﻿define([DQXSC("Framework"), DQXSC("HistoryManager"), DQXSC("DocEl"), DQXSC("Msg"), DQXSC("DataFetcher/DataFetcherFile"), "Views/Browser"],
-    function (Framework, HistoryManager, DocEl, Msg, DataFetcherFile, BrowserModule) {
+﻿define([DQXSC("Framework"), DQXSC("HistoryManager"), DQXSC("DocEl"), DQXSC("Msg"), "Views/Browser"],
+    function (Framework, HistoryManager, DocEl, Msg, BrowserModule) {
         thePage = {
 
             createFramework: function () {
@@ -9,7 +9,7 @@
 
                 //The top line of the page
                 thePage.frameHeaderIntro = thePage.frameRoot.addMemberFrame(Framework.FrameFinal('HeaderIntro', 1))
-                    .setFixedSize(Framework.dimY, 50).setFrameClassClient('DQXPage');
+                    .setFixedSize(Framework.dimY, 2).setFrameClassClient('DQXPage');
 
                 //The body panel of the page
                 thePage.frameBody = thePage.frameRoot.addMemberFrame(Framework.FrameGroupHor('info', 1)).setFrameClassClient('DQXDarkFrame').setMargins(8);
@@ -19,15 +19,6 @@
 
             },
 
-            getMetaData: function () {
-                //DataFetcherFile.getFile(serverUrl, "SnpSets", thePage.handleGetMetaData);
-                DataFetcherFile.getFile(serverUrl, "SNP-svar1/_MetaData", thePage.handleGetMetaData);
-            },
-
-            handleGetMetaData: function (content) {
-                //alert(content);
-                var rows = content.split('\n');
-            }
 
 
         };

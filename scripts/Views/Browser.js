@@ -1,36 +1,8 @@
 ﻿
-dataid = null;
-
-if (!dataid)
-    dataid = 'SNP-svar1';
-
-if (dataid == 'SNP-3d7xHb3_qcPlusSamples-01') {
-    samplestring = "PG0051-C	PG0052-C	PG0053-C	PG0054-C	PG0056-C	PG0057-C	PG0058-C	PG0060-C	PG0061-C	PG0062-C	PG0063-C	PG0064-C	PG0065-C	PG0066-C	PG0067-C	PG0068-C	PG0069-C	PG0070-C	PG0071-C	PG0072-C";
-    samples = samplestring.split('\t');
-    sampleparents = ['PG0051-C', 'PG0052-C'];
-}
-
-if (dataid == 'SNP-7g8xGb4-allSamples-01') {
-    samplestring = "PG0083-C	PG0084-C	PG0077-CW	PG0078-CW	PG0079-CW	PG0080-C	PG0081-CW	PG0082-C	PG0085-C	PG0086-CW	PG0087-C	PG0088-C	PG0090-CW	PG0091-C	PG0092-C	PG0093-C	PG0094-CW	PG0095-CW	PG0096-C	PG0097-C	PG0098-C	PG0099-C	PG0100-CW	PG0101-C	PG0102-CW	PG0103-CW	PG0104-CW	PG0105-CW	PG0106-C	PG0107-C	PG0108-C	PG0109-C	PG0110-CW	PG0111-CW	PG0112-CW	PG0113-CW";
-    samples = samplestring.split('\t');
-    sampleparents = ['PG0083-C', 'PG0084-C'];
-}
-
-if (dataid == 'SNP-Hb3xDd2-allSamples-01') {
-    samplestring = "PG0004-CW	PG0008-CW	PG0022-Cx	PG0015-C	PG0016-C	PG0017-C	PG0018-C	PG0019-C	PG0020-C	PG0021-C	PG0023-C	PG0024-C	PG0025-C	PG0026-C	PG0027-C	PG0028-C	PG0029-Cx	PG0030-C	PG0031-C	PG0032-Cx	PG0033-C	PG0034-C	PG0035-Cx	PG0036-C	PG0037-C	PG0038-C	PG0039-C	PG0040-Cx	PG0041-C	PG0042-C	PG0043-C	PG0044-C	PG0045-C	PG0046-Cx	PG0047-C	PG0048-C	PG0074-C";
-    samples = samplestring.split('\t');
-    sampleparents = ['PG0004-CW', 'PG0008-CW'];
-}
-
-if (dataid == 'SNP-svar1') {
-    samplestring = "PG0051-C	PG0052-C	PG0053-C	PG0054-C	PG0056-C	PG0057-C	PG0058-C	PG0060-C	PG0061-C	PG0062-C	PG0063-C	PG0064-C	PG0065-C	PG0066-C	PG0067-C	PG0068-C	PG0069-C	PG0070-C	PG0071-C	PG0072-C";
-    samples = samplestring.split('\t');
-    sampleparents = ['PG0051-C', 'PG0052-C'];
-}
 
 
-define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("DocEl"), DQXSC("Utils"), DQXSC("FrameTree"), DQXSC("ChannelPlot/GenomePlotter"), DQXSC("DataFetcher/DataFetcherSnp"), DQXSC("ChannelPlot/ChannelSnps")],
-    function (require, Framework, Controls, Msg, DocEl, DQX, FrameTree, GenomePlotter, DataFetcherSnp, ChannelSnps) {
+define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("DocEl"), DQXSC("Utils"), DQXSC("FrameList"), DQXSC("ChannelPlot/GenomePlotter"), DQXSC("DataFetcher/DataFetcherSnp"), DQXSC("ChannelPlot/ChannelSnps"), DQXSC("DataFetcher/DataFetcherFile")],
+    function (require, Framework, Controls, Msg, DocEl, DQX, FrameList, GenomePlotter, DataFetcherSnp, ChannelSnps, DataFetcherFile) {
 
         var BrowserModule = {
 
@@ -43,8 +15,14 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("D
 
                 that.createFramework = function () {
 
-                    this.frameControls = thePage.frameBody.addMemberFrame(Framework.FrameFinal('settings', 0.3))
-                        .setMargins(5).setDisplayTitle('Settings').setFixedSize(Framework.dimX, 320);
+                    this.frameLeft = thePage.frameBody.addMemberFrame(Framework.FrameGroupVert('settings', 0.01))
+                        .setMargins(5).setFixedSize(Framework.dimX, 320);
+
+                    this.frameDataSource = this.frameLeft.addMemberFrame(Framework.FrameFinal('datasource', 0.3))
+                        .setMargins(5).setDisplayTitle('Data source').setFixedSize(Framework.dimY, 100);
+
+                    this.frameControls = this.frameLeft.addMemberFrame(Framework.FrameFinal('settings', 0.3))
+                        .setMargins(5).setDisplayTitle('Settings');
 
                     this.frameBrowser = thePage.frameBody.addMemberFrame(Framework.FrameFinal('browser', 0.7))
                         .setMargins(0).setDisplayTitle('Browser');
@@ -77,15 +55,13 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("D
                     this.panelBrowser.getNavigator().setMinScrollSize(0.0001);
 
 
-
-
                     //Create snp view channel
-                    var mydatafetcher_snps = new DataFetcherSnp.Fetcher(serverUrl, dataid, samples);
-                    mydatafetcher_snps.parentIDs = sampleparents;
+                    var mydatafetcher_snps = new DataFetcherSnp.Fetcher(serverUrl, '', []);
+                    //mydatafetcher_snps.parentIDs = sampleparents;
 
                     this.panelBrowser.addDataFetcher(mydatafetcher_snps);
 
-                    this.SnpChannel = ChannelSnps.Channel('snps1', samples, mydatafetcher_snps);
+                    this.SnpChannel = ChannelSnps.Channel('snps1', [], mydatafetcher_snps);
                     this.SnpChannel.setTitle('Snps1');
                     this.SnpChannel.setHeight(400);
                     this.SnpChannel.setAutoFillHeight();
@@ -98,7 +74,55 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("D
 
                     this.createControls();
 
+                    //data source picker
+                    this.panelDataSource = Framework.Form(this.frameDataSource);
+                    this.getDataSources();
+
+
                 };
+
+                that.getDataSources = function () {
+                    DataFetcherFile.getFile(serverUrl, "SnpSets", $.proxy(this.handleGetDataSources, this));
+                };
+
+                that.handleGetDataSources = function (content) {
+                    //alert(content);
+                    var rows = content.split('\n');
+                    var sources = [{ id: 'select', name: '- Select data source -'}];
+                    for (var i = 0; i < rows.length; i++)
+                        sources.push({ id: rows[i], name: rows[i] });
+                    var group1 = this.panelDataSource.addControl(Controls.CompoundVert());
+                    this.datasourcePicker = Controls.Combo('DataSource', { label: 'Data source:', value: 'select', states: sources })
+                    group1.addControl(this.datasourcePicker);
+                    this.datasourcePicker.setOnChanged($.proxy(this.changeDataSource, this));
+                    this.infoBox = group1.addControl(Controls.Html('infoBox', ''));
+                    this.panelDataSource.render();
+                };
+
+                that.changeDataSource = function () {
+                    var dataSource = this.datasourcePicker.getValue();
+                    DataFetcherFile.getFile(serverUrl, dataSource + "/_MetaData", $.proxy(this.handleChangeDataSource, this));
+                }
+
+                that.handleChangeDataSource = function (content) {
+//                    this.infoBox.modifyValue(content);
+                    var lines = content.split('\n');
+                    this.sampleList = [];
+                    this.parentList = [];
+                    for (var linenr = 0; linenr < lines.length; linenr++) {
+                        var line = lines[linenr];
+                        var splitPos = line.indexOf('=');
+                        if (splitPos > 0) {
+                            var token = line.slice(0, splitPos);
+                            var content = line.slice(splitPos + 1);
+                            if (token == 'Samples')
+                                this.sampleList = content.split('\t');
+                            if (token == 'Parents')
+                                this.ParentList = content.split('\t');
+                        }
+                    }
+                    this.SnpChannel.setSampleList(this.datasourcePicker.getValue(), this.sampleList, this.ParentList);
+                }
 
                 that.createControls = function () {
                     this.panelControls = Framework.Form(this.frameControls);

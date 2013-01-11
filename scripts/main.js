@@ -10,8 +10,6 @@ require([DQXSCJQ(), DQXSC("Framework"), DQXSC("Msg"), DQXSC("HistoryManager"), D
 
             setTimeout(function () {
 
-                thePage.getMetaData();
-
                 //Create the frames
                 thePage.createFramework();
 
