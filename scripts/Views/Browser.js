@@ -24,8 +24,12 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("D
                     this.frameControls = this.frameLeft.addMemberFrame(Framework.FrameFinal('settings', 0.7))
                         .setMargins(5).setDisplayTitle('Settings').setFixedSize(Framework.dimX, 350);
 
+                    this.frameDetails = this.frameLeft.addMemberFrame(Framework.FrameFinal('details', 0.3))
+                        .setMargins(5).setDisplayTitle('Details').setFixedSize(Framework.dimX, 350);
+
                     this.frameBrowser = thePage.frameBody.addMemberFrame(Framework.FrameFinal('browser', 0.7))
                         .setMargins(0).setDisplayTitle('Browser');
+
 
                     Msg.listen("", { type: 'JumpgenomeRegion' }, $.proxy(this.onJumpGenomeRegion, this));
 
@@ -79,6 +83,14 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("D
                     Msg.listen('', { type: 'SelectItem', id: this.panelDataSource.getID() }, $.proxy(this.changeDataSource, this));
                     this.getDataSources();
 
+
+                    //details panel
+                    var frameDetails = Framework.Form(this.frameDetails);
+                    this.details = frameDetails.addControl(Controls.Html('details', ''));
+                    frameDetails.render();
+                    Msg.listen('', { type: 'SnpInfoChanged', id: this.SnpChannel.getID() }, function (scope, content) {
+                        that.details.modifyValue(content);
+                    });
 
                 };
 
@@ -149,7 +161,7 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("D
                         that.SnpChannel.filter.applyVCFFilter = ctrl.getValue();
                         that.panelBrowser.render();
                     });
-                    group1.addControl(Controls.Check('CtrlHideFiltered', { label: 'Hide filtered SNPs' })).setOnChanged(function (id, ctrl) {
+                    group1.addControl(Controls.Check('CtrlHideFiltered', { label: 'Hide filtered SNPs', value: true })).setOnChanged(function (id, ctrl) {
                         that.SnpChannel.hideFiltered = ctrl.getValue();
                         that.panelBrowser.render();
                     });
