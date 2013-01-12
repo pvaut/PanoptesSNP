@@ -143,7 +143,7 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("D
                         that.panelBrowser.render();
                     });
 
-                    group1.addControl(Controls.Check('CtrlFilterVCF', { label: 'Filter by VCF data' })).setOnChanged(function (id, ctrl) {
+                    group1.addControl(Controls.Check('CtrlFilterVCF', { label: 'Filter by VCF data', value:true })).setOnChanged(function (id, ctrl) {
                         that.SnpChannel.filter.applyVCFFilter = ctrl.getValue();
                         that.panelBrowser.render();
                     });
