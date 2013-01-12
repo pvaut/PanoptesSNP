@@ -16,13 +16,13 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("D
                 that.createFramework = function () {
 
                     this.frameLeft = thePage.frameBody.addMemberFrame(Framework.FrameGroupVert('settings', 0.01))
-                        .setMargins(5).setFixedSize(Framework.dimX, 330);
+                        .setMargins(5).setFixedSize(Framework.dimX, 350);
 
                     this.frameDataSource = this.frameLeft.addMemberFrame(Framework.FrameFinal('datasource', 0.3))
-                        .setMargins(5).setDisplayTitle('Data source').setFixedSize(Framework.dimY, 100).setFixedSize(Framework.dimX, 330);
+                        .setMargins(5).setDisplayTitle('Data source').setFixedSize(Framework.dimX, 350);
 
-                    this.frameControls = this.frameLeft.addMemberFrame(Framework.FrameFinal('settings', 0.3))
-                        .setMargins(5).setDisplayTitle('Settings').setFixedSize(Framework.dimX, 330);
+                    this.frameControls = this.frameLeft.addMemberFrame(Framework.FrameFinal('settings', 0.7))
+                        .setMargins(5).setDisplayTitle('Settings').setFixedSize(Framework.dimX, 350);
 
                     this.frameBrowser = thePage.frameBody.addMemberFrame(Framework.FrameFinal('browser', 0.7))
                         .setMargins(0).setDisplayTitle('Browser');
@@ -75,7 +75,8 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("D
                     this.createControls();
 
                     //data source picker
-                    this.panelDataSource = Framework.Form(this.frameDataSource);
+                    this.panelDataSource = FrameList(this.frameDataSource);
+                    Msg.listen('', { type: 'SelectItem', id: this.panelDataSource.getID() }, $.proxy(this.changeDataSource, this));
                     this.getDataSources();
 
 
@@ -88,24 +89,25 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("D
                 that.handleGetDataSources = function (content) {
                     //alert(content);
                     var rows = content.split('\n');
-                    var sources = [{ id: 'select', name: '- Select data source -'}];
+                    var it = [];
                     for (var i = 0; i < rows.length; i++)
-                        sources.push({ id: rows[i], name: rows[i] });
-                    var group1 = this.panelDataSource.addControl(Controls.CompoundVert());
-                    this.datasourcePicker = Controls.Combo('DataSource', { label: 'Data source:', value: 'select', states: sources })
-                    group1.addControl(this.datasourcePicker);
-                    this.datasourcePicker.setOnChanged($.proxy(this.changeDataSource, this));
-                    this.infoBox = group1.addControl(Controls.Html('infoBox', ''));
+                        if (rows[i])
+                            it.push({
+                                id: rows[i],
+                                content: rows[i]
+                            });
+                    this.panelDataSource.setItems(it);
                     this.panelDataSource.render();
+                    this.changeDataSource();
                 };
 
                 that.changeDataSource = function () {
-                    var dataSource = this.datasourcePicker.getValue();
+                    var dataSource = this.panelDataSource.getActiveItem();
                     DataFetcherFile.getFile(serverUrl, dataSource + "/_MetaData", $.proxy(this.handleChangeDataSource, this));
                 }
 
                 that.handleChangeDataSource = function (content) {
-//                    this.infoBox.modifyValue(content);
+                    //                    this.infoBox.modifyValue(content);
                     var lines = content.split('\n');
                     this.sampleList = [];
                     this.parentList = [];
@@ -121,7 +123,7 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("D
                                 this.ParentList = content.split('\t');
                         }
                     }
-                    this.SnpChannel.setSampleList(this.datasourcePicker.getValue(), this.sampleList, this.ParentList);
+                    this.SnpChannel.setSampleList(this.panelDataSource.getActiveItem(), this.sampleList, this.ParentList);
                 }
 
                 that.createControls = function () {
@@ -143,7 +145,7 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("D
                         that.panelBrowser.render();
                     });
 
-                    group1.addControl(Controls.Check('CtrlFilterVCF', { label: 'Filter by VCF data', value:true })).setOnChanged(function (id, ctrl) {
+                    group1.addControl(Controls.Check('CtrlFilterVCF', { label: 'Filter by VCF data', value: true })).setOnChanged(function (id, ctrl) {
                         that.SnpChannel.filter.applyVCFFilter = ctrl.getValue();
                         that.panelBrowser.render();
                     });
