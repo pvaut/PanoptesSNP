@@ -14,25 +14,17 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("D
                 that.refVersion = 2;
 
                 that.createFramework = function () {
-
                     this.frameLeft = thePage.frameBody.addMemberFrame(Framework.FrameGroupVert('settings', 0.01))
                         .setMargins(5).setFixedSize(Framework.dimX, 350);
-
                     this.frameDataSource = this.frameLeft.addMemberFrame(Framework.FrameFinal('datasource', 0.3))
                         .setMargins(5).setDisplayTitle('Data source').setFixedSize(Framework.dimX, 350);
-
                     this.frameControls = this.frameLeft.addMemberFrame(Framework.FrameFinal('settings', 0.7))
                         .setMargins(5).setDisplayTitle('Settings').setFixedSize(Framework.dimX, 350);
-
                     this.frameDetails = this.frameLeft.addMemberFrame(Framework.FrameFinal('details', 0.3))
                         .setMargins(5).setDisplayTitle('Details').setFixedSize(Framework.dimX, 350);
-
                     this.frameBrowser = thePage.frameBody.addMemberFrame(Framework.FrameFinal('browser', 0.7))
                         .setMargins(0).setDisplayTitle('Browser');
-
-
                     Msg.listen("", { type: 'JumpgenomeRegion' }, $.proxy(this.onJumpGenomeRegion, this));
-
                 };
 
                 that.createPanels = function () {
@@ -60,12 +52,7 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("D
 
 
                     //Create snp view channel
-                    var mydatafetcher_snps = new DataFetcherSnp.Fetcher(serverUrl, '', []);
-                    //mydatafetcher_snps.parentIDs = sampleparents;
-
-                    this.panelBrowser.addDataFetcher(mydatafetcher_snps);
-
-                    this.SnpChannel = ChannelSnps.Channel('snps1', [], mydatafetcher_snps);
+                    this.SnpChannel = ChannelSnps.Channel('snps1',serverUrl);
                     this.SnpChannel.setTitle('Snps1');
                     this.SnpChannel.setHeight(400);
                     this.SnpChannel.setAutoFillHeight();
@@ -99,7 +86,6 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("D
                 };
 
                 that.handleGetDataSources = function (content) {
-                    //alert(content);
                     var rows = content.split('\n');
                     var it = [];
                     for (var i = 0; i < rows.length; i++)
@@ -114,35 +100,14 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("D
                 };
 
                 that.changeDataSource = function () {
-                    var dataSource = this.panelDataSource.getActiveItem();
-                    DataFetcherFile.getFile(serverUrl, dataSource + "/_MetaData", $.proxy(this.handleChangeDataSource, this));
+                    this.SnpChannel.setDataSource(this.panelDataSource.getActiveItem());
                 }
 
-                that.handleChangeDataSource = function (content) {
-                    //                    this.infoBox.modifyValue(content);
-                    var lines = content.split('\n');
-                    this.sampleList = [];
-                    this.parentList = [];
-                    for (var linenr = 0; linenr < lines.length; linenr++) {
-                        var line = lines[linenr];
-                        var splitPos = line.indexOf('=');
-                        if (splitPos > 0) {
-                            var token = line.slice(0, splitPos);
-                            var content = line.slice(splitPos + 1);
-                            if (token == 'Samples')
-                                this.sampleList = content.split('\t');
-                            if (token == 'Parents')
-                                this.ParentList = content.split('\t');
-                        }
-                    }
-                    this.SnpChannel.setSampleList(this.panelDataSource.getActiveItem(), this.sampleList, this.ParentList);
-                }
 
                 that.createControls = function () {
                     this.panelControls = Framework.Form(this.frameControls);
 
                     var group1 = this.panelControls.addControl(Controls.CompoundVert());
-
 
                     group1.addControl(Controls.Check('CtrlMagnif', { label: 'Show magnifying glass' })).setOnChanged(function (id, ctrl) {
                         that.SnpChannel.useMagnifyingGlass = ctrl.getValue();
