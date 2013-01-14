@@ -13,6 +13,7 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("D
                 that.registerView();
                 that.refVersion = 2;
 
+
                 that.createFramework = function () {
                     this.frameLeft = thePage.frameBody.addMemberFrame(Framework.FrameGroupVert('settings', 0.01))
                         .setMargins(5).setFixedSize(Framework.dimX, 350);
@@ -52,7 +53,7 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("D
 
 
                     //Create snp view channel
-                    this.SnpChannel = ChannelSnps.Channel('snps1',serverUrl);
+                    this.SnpChannel = ChannelSnps.Channel('snps1', serverUrl);
                     this.SnpChannel.setTitle('Snps1');
                     this.SnpChannel.setHeight(400);
                     this.SnpChannel.setAutoFillHeight();
@@ -82,10 +83,12 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("D
                 };
 
                 that.getDataSources = function () {
+                    DQX.setProcessing("Downloading...");
                     DataFetcherFile.getFile(serverUrl, "SnpSets", $.proxy(this.handleGetDataSources, this));
                 };
 
                 that.handleGetDataSources = function (content) {
+                    DQX.stopProcessing();
                     var rows = content.split('\n');
                     var it = [];
                     for (var i = 0; i < rows.length; i++)
