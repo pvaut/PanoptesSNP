@@ -1,8 +1,17 @@
 ﻿
+function translateChromoId(id) {// !!! this is a temperay hack to deal with the fact that we have inconsistent chromosome naming in the 2 data sets
+    for (var i = 1; i <= 14; i++)
+        if (id == 'MAL' + i) {
+            var rs = "Pf3D7_" + ('0' + i).slice(-2) + "_v3";
+            return rs;
+        }
+    throw "Invalid chromosome id"
+}
 
 
-define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("DocEl"), DQXSC("Utils"), DQXSC("FrameList"), DQXSC("ChannelPlot/GenomePlotter"), DQXSC("DataFetcher/DataFetcherSnp"), DQXSC("ChannelPlot/ChannelSnps"), DQXSC("DataFetcher/DataFetcherFile")],
-    function (require, Framework, Controls, Msg, DocEl, DQX, FrameList, GenomePlotter, DataFetcherSnp, ChannelSnps, DataFetcherFile) {
+
+define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("DocEl"), DQXSC("Utils"), DQXSC("FrameList"), DQXSC("ChannelPlot/GenomePlotter"), DQXSC("ChannelPlot/ChannelSequence"), DQXSC("ChannelPlot/ChannelSnps"), DQXSC("DataFetcher/DataFetcherFile")],
+    function (require, Framework, Controls, Msg, DocEl, DQX, FrameList, GenomePlotter, ChannelSequence, ChannelSnps, DataFetcherFile) {
 
         var BrowserModule = {
 
@@ -12,6 +21,8 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("D
                 that.myFrame = iFrame;
                 that.registerView();
                 that.refVersion = 2;
+
+                that.dataLocation = "SnpDataCross";
 
 
                 that.createFramework = function () {
@@ -40,6 +51,10 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("D
                         browserConfig.annotTableName = 'pf3annot';
 
                     this.panelBrowser = GenomePlotter.Panel(this.frameBrowser, browserConfig);
+
+                    SeqChannel = ChannelSequence.Channel(serverUrl, 'PfCross/Sequence', 'Summ01');
+                    this.panelBrowser.addChannel(SeqChannel, true);
+                    //SeqChannel.myfetcher.translateChromoId = translateChromoId;
 
                     if (this.refVersion == 2)
                         this.panelBrowser.getAnnotationFetcher().setFeatureType('gene', 'exon');
@@ -84,7 +99,7 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("D
 
                 that.getDataSources = function () {
                     DQX.setProcessing("Downloading...");
-                    DataFetcherFile.getFile(serverUrl, "SnpSets", $.proxy(this.handleGetDataSources, this));
+                    DataFetcherFile.getFile(serverUrl, that.dataLocation + "/SnpSets", $.proxy(this.handleGetDataSources, this));
                 };
 
                 that.handleGetDataSources = function (content) {
@@ -103,7 +118,7 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("D
                 };
 
                 that.changeDataSource = function () {
-                    this.SnpChannel.setDataSource(this.panelDataSource.getActiveItem());
+                    this.SnpChannel.setDataSource(that.dataLocation+'/'+this.panelDataSource.getActiveItem());
                 }
 
 
