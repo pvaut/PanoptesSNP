@@ -20,7 +20,7 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("D
                 that.myPage = iPage;
                 that.myFrame = iFrame;
                 that.registerView();
-                that.refVersion = 2;
+                that.refVersion = 3;
 
                 that.dataLocation = "SnpDataCross";
 
@@ -28,7 +28,7 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("D
                 that.createFramework = function () {
                     this.frameLeft = thePage.frameBody.addMemberFrame(Framework.FrameGroupVert('settings', 0.01))
                         .setMargins(5).setFixedSize(Framework.dimX, 350);
-                    this.frameDataSource = this.frameLeft.addMemberFrame(Framework.FrameFinal('datasource', 0.3))
+                    this.frameDataSource = this.frameLeft.addMemberFrame(Framework.FrameFinal('datasource', 0.5))
                         .setMargins(5).setDisplayTitle('Data source').setFixedSize(Framework.dimX, 350);
                     this.frameControls = this.frameLeft.addMemberFrame(Framework.FrameFinal('settings', 0.7))
                         .setMargins(5).setDisplayTitle('Settings').setFixedSize(Framework.dimX, 350);
@@ -114,7 +114,7 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("D
                             });
                     this.panelDataSource.setItems(it);
                     this.panelDataSource.render();
-                    this.changeDataSource();
+                    setTimeout($.proxy(that.changeDataSource,that),100);
                 };
 
                 that.changeDataSource = function () {
@@ -196,7 +196,7 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("D
                         this.panelBrowser.addChromosome(chromoids[chromnr], chromoids[chromnr], chromosizes[chromnr]);
                     }
                     //Startup the browser with a start region
-                    this.panelBrowser.showRegion("Pf3D7_01", 0, 400000);
+                    this.panelBrowser.showRegion("Pf3D7_01", 0, 100000);
                 }
 
                 that.createChromosomesPFV3 = function () {
@@ -208,7 +208,7 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("D
                         this.panelBrowser.addChromosome(chromoids[chromnr], chromoids[chromnr], chromosizes[chromnr]);
                     }
                     //Startup the browser with a start region
-                    this.panelBrowser.showRegion("Pf3D7_01_v3", 0, 400000);
+                    this.panelBrowser.showRegion("Pf3D7_01_v3", 0, 100000);
                 }
 
 
