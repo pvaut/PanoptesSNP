@@ -114,11 +114,11 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("D
                             });
                     this.panelDataSource.setItems(it);
                     this.panelDataSource.render();
-                    setTimeout($.proxy(that.changeDataSource,that),100);
+                    setTimeout($.proxy(that.changeDataSource, that), 100);
                 };
 
                 that.changeDataSource = function () {
-                    this.SnpChannel.setDataSource(that.dataLocation+'/'+this.panelDataSource.getActiveItem());
+                    this.SnpChannel.setDataSource(that.dataLocation + '/' + this.panelDataSource.getActiveItem());
                 }
 
 
@@ -208,7 +208,9 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("D
                         this.panelBrowser.addChromosome(chromoids[chromnr], chromoids[chromnr], chromosizes[chromnr]);
                     }
                     //Startup the browser with a start region
-                    this.panelBrowser.showRegion("Pf3D7_01_v3", 0, 100000);
+                    setTimeout(function () {
+                        that.panelBrowser.showRegion("Pf3D7_01_v3", 0, 100000);
+                    }, 1);
                 }
 
 
