@@ -95,6 +95,14 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("D
                         that.details.modifyValue(content);
                     });
 
+                    //Startup the browser with a start region
+                    //setTimeout(function () {
+                    this.panelBrowser.setPostInitialiseHandler(function () {
+                        that.panelBrowser.showRegion(that.panelBrowser.getChromoID(1), 200000, 10000);
+                    });
+                    //}, 1);
+
+
                 };
 
                 that.getDataSources = function () {
@@ -114,7 +122,8 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("D
                             });
                     this.panelDataSource.setItems(it);
                     this.panelDataSource.render();
-                    setTimeout($.proxy(that.changeDataSource, that), 100);
+                    this.changeDataSource();
+                    //setTimeout($.proxy(that.changeDataSource, that), 100);
                 };
 
                 that.changeDataSource = function () {
@@ -207,10 +216,6 @@ define([DQXSCRQ(), DQXSC("Framework"), DQXSC("Controls"), DQXSC("Msg"), DQXSC("D
                         chromoids[chromnr] += '_v3';
                         this.panelBrowser.addChromosome(chromoids[chromnr], chromoids[chromnr], chromosizes[chromnr]);
                     }
-                    //Startup the browser with a start region
-                    setTimeout(function () {
-                        that.panelBrowser.showRegion("Pf3D7_01_v3", 0, 100000);
-                    }, 1);
                 }
 
 
